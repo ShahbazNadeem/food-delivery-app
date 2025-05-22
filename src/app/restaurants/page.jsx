@@ -14,9 +14,9 @@ export default function AuthPage() {
         <div className="wrapper border">
           <div className="container">
             <div className="flex items-center justify-center h-screen">
-              <div className="xl:pt-10 2xl:pt-0">
-                <h2>Restaurant Login/SignUp Page</h2>
-                <div className="sm:border pb-8 sm:max-w-md mx-auto rounded-2xl mt-5">
+              <div className="pt-10 xl:pt-10 2xl:pt-0">
+                <h2 className='sm:block hidden'>Restaurant Login/SignUp Page</h2>
+                <div className="sm:border pb-8 sm:max-w-fit mx-auto rounded-2xl mt-5">
                   <LoginSwitcher />
                 </div>
               </div>

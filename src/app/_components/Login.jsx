@@ -3,7 +3,7 @@ const Login = () => {
   return (
     <>
 
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto ">
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto sm:max-w-lg">
       <div className="w-full">
         <div className="space-y-4 md:space-y-6">
           <h3 className="text-gray-900 md:text-2xl text-center">

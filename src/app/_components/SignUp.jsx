@@ -1,28 +1,81 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 
 const SignUp = () => {
+  const [users, setUsers] = useState({
+    name: "",
+    email: "",
+    city: "",
+    address: "",
+    contact: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setUsers((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    console.log(users)
+    setUsers({
+      name: "",
+      email: "",
+      city: "",
+      address: "",
+      contact: "",
+      password: "",
+    })
+  }
   return (
     <>
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto ">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto sm:max-w-xl">
         <div className="w-full">
           <div className="space-y-4 md:space-y-6">
             <h3 className="text-gray-900 md:text-2xl text-center">
               Create your account!
             </h3>
-            <form className="space-y-4 md:space-y-6" action="#">
-              <div>
-                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 ">Your name</label>
-                <input type="text" name="name" id="name" placeholder="Your name" required />
+            <form className="" onSubmit={handleSignUp}>
+              <div className="flex flex-wrap gap-2">
+                <div className="w-full sm:w-fit flex flex-col gap-2">
+                  <div>
+                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 ">Your name</label>
+                    <input type="text" name="name" id="name" value={users.name} onChange={handleChange} placeholder="Your name" required />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
+                    <input type="email" name="email" id="email" value={users.email} onChange={handleChange} placeholder="name@company.com" required />
+                  </div>
+                  <div>
+                    <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 ">City</label>
+                    <input type="text" name="city" id="city" value={users.city} onChange={handleChange} placeholder="name@company.com" required />
+                  </div>
+
+                </div>
+
+                <div className="w-full sm:w-fit flex flex-col gap-2">
+                  <div>
+                    <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
+                    <input type="text" name="address" id="address" value={users.address} onChange={handleChange} placeholder="name@company.com" required />
+                  </div>
+                  <div>
+                    <label htmlFor="contact" className="block mb-2 text-sm font-medium text-gray-900 ">Contact</label>
+                    <input type="number" name="contact" id="contact" value={users.contact} onChange={handleChange} placeholder="name@company.com" required />
+                  </div>
+                  <div>
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                    <input type="password" name="password" id="password" value={users.password} onChange={handleChange} placeholder="••••••••" required />
+                  </div>
+                </div>
               </div>
-              <div>
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
-                <input type="email" name="email" id="email" placeholder="name@company.com" required />
-              </div>
-              <div>
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                <input type="password" name="password" id="password" placeholder="••••••••" required />
-              </div>
-              <button type="submit" className="w-full">Sign up</button>
+
+
+              <button type="submit" className="w-full mt-5">Sign up</button>
             </form>
           </div>
         </div>
