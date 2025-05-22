@@ -1,4 +1,5 @@
 import LoginSwitcher from '@components/LoginSwitcher';
+import Layout from '@components/layout/Layout';
 
 export const metadata = {
   title: 'Restaurant - Login / Sign Up',
@@ -7,11 +8,23 @@ export const metadata = {
 
 export default function AuthPage() {
   return (
-    <div className="container">
-      <h2>Restaurant Login/SignUp Page</h2>
-      <div className="sm:border pb-8 sm:max-w-md mx-auto rounded-2xl mt-5">
-        <LoginSwitcher />
-      </div>
-    </div>
+    <Layout>
+
+      <section>
+        <div className="wrapper border">
+          <div className="container">
+            <div className="flex items-center justify-center h-screen">
+              <div className="xl:pt-10 2xl:pt-0">
+                <h2>Restaurant Login/SignUp Page</h2>
+                <div className="sm:border pb-8 sm:max-w-md mx-auto rounded-2xl mt-5">
+                  <LoginSwitcher />
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </Layout>
   );
 }

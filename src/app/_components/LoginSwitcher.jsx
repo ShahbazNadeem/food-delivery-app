@@ -6,7 +6,6 @@ import SignUp from '@components/SignUp';
 export default function LoginSwitcher() {
   const [login, setLogin] = useState(true);
 
-  // Dynamically update document title
   useEffect(() => {
     document.title = login ? 'Login - Restaurant' : 'Sign Up - Restaurant';
   }, [login]);
