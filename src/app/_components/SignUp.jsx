@@ -1,9 +1,10 @@
 "use client"
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
-
+import { useRouter } from 'next/navigation';
 
 const SignUp = () => {
+  const router = useRouter()
   const [users, setUsers] = useState({
     name: "",
     email: "",
@@ -21,39 +22,52 @@ const SignUp = () => {
       [name]: value,
     }));
   }
-
+  
   const handleSignUp = async (e) => {
     e.preventDefault();
-    let res = await fetch("http://localhost:3000/api/restaurant", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(users),
-    });
-    const result = await res.json();
-    console.log(result);
-    if (result.sucess) {
-      toast.success('Registered Sucessfully', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
+    try {
+      let res = await fetch("http://localhost:3000/api/restaurant", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(users),
       });
-      setUsers({
-        name: "",
-        email: "",
-        city: "",
-        address: "",
-        contact: "",
-        password: "",
-      })
+
+      console.log("Raw response object:", res); // ✅
+
+      if (!res.ok) {
+        const err = await res.json();
+        console.error("Backend returned error:", err);
+        toast.error("Something went wrong!");
+        return;
+      }
+
+      res = await res.json();
+
+      if (res.success) {
+        toast.success('Registered Sucessfully', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        const { result } = res;
+        delete result.password;
+        localStorage.setItem("restaurantUser", JSON.stringify(result));
+        console.log("Saved user to localStorage:", result);
+        router.push("/restaurant/dashboard")
+      }
+    } catch (err) {
+      console.error("Fetch failed:", err);
+      toast.error("Network or server error.");
     }
   }
+
   return (
     <>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto sm:max-w-xl">
