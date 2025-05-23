@@ -2,7 +2,7 @@ import LoginSwitcher from '@components/LoginSwitcher';
 import Layout from '@components/layout/Layout';
 
 export const metadata = {
-  title: 'Restaurant - Login / Sign Up',
+  title: 'Login - Restaurant ',
   description: 'Login or sign up to access the Restaurant app.',
 };
 

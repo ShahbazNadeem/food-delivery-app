@@ -1,5 +1,7 @@
 "use client"
 import React, { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const SignUp = () => {
   const [users, setUsers] = useState({
@@ -20,17 +22,37 @@ const SignUp = () => {
     }));
   }
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    console.log(users)
-    setUsers({
-      name: "",
-      email: "",
-      city: "",
-      address: "",
-      contact: "",
-      password: "",
-    })
+    let res = await fetch("http://localhost:3000/api/restaurant", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(users),
+    });
+    const result = await res.json();
+    console.log(result);
+    if (result.sucess) {
+      toast.success('Registered Sucessfully', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setUsers({
+        name: "",
+        email: "",
+        city: "",
+        address: "",
+        contact: "",
+        password: "",
+      })
+    }
   }
   return (
     <>
@@ -80,6 +102,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   )
 }
