@@ -5,26 +5,28 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 import projectLogo from "@/images/projectLogo.png"
+import { useRouter, usePathname } from 'next/navigation';
 
 const AuthHeader = () => {
+  const router = useRouter()
+  const pathName = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [localUser, setLocalUser] = useState(null);
+  const [details, setDetails] = useState();
 
   useEffect(() => {
-    const loadUser = () => {
-      const storedUser = sessionStorage.getItem('user');
-      if (storedUser) {
-        setLocalUser(JSON.parse(storedUser));
-      } else {
-        setLocalUser(null);
+    const data = localStorage.getItem("restaurantUser");
+    if (!data && pathName == "/restaurant/dashboard") {
+      router.push("/restaurant");
+    } else if (data && pathName == "/restaurant") {
+      router.push("/restaurant/dashboard")
+    } else {
+      try {
+        setDetails(JSON.parse(data));
+      } catch (e) {
+        console.error("Error parsing restaurantUser:", e);
+        router.push("/restaurant");
       }
-    };
-
-    loadUser();
-
-    window.addEventListener("userLogout", loadUser);
-
-    return () => window.removeEventListener("userLogout", loadUser);
+    }
   }, []);
 
   useEffect(() => {
@@ -52,18 +54,15 @@ const AuthHeader = () => {
               <li><Link href="/">Home</Link></li>
               <li><Link href="/restaurant">Resturant</Link></li>
               <li><Link href="#">Demo</Link></li>
-              {/* <li>
-                {localUser ? (
-                  <Link href="/dashboard">Dashboard</Link>
+            </ul>
+            <span>
+              <button className="hidden sm:block">
+                {details && details.name ? (
+                  <Link href="/restaurant/dashboard">Dashboard</Link>
                 ) : (
                   <Link href="/login">Login</Link>
                 )}
-              </li> */}
-            </ul>
-            <span>
-              <Link href="#">
-                <button className="hidden sm:block">Login</button>
-              </Link>
+              </button>
             </span>
           </div>
         </nav>
@@ -89,26 +88,16 @@ const AuthHeader = () => {
         <div className="py-10 px-2 flex flex-col gap-10">
           <ul className="flex flex-col gap-5 font-marcellus text-[16]">
             <li><Link href="/">Home</Link></li>
-            <li><Link href="/premiumgrouptours">Premium Group Tours</Link></li>
-            <li><Link href="/privatetours">Private Tours</Link></li>
-            <li><Link href="/byair">By Air</Link></li>
-            <li><Link href="/psy">Pakistan Sikh Yatra</Link></li>
-            <li><Link href="/contact">Contact</Link></li>
-            {/* <li>
-              {localUser ? (
-                <Link href="/dashboard">Dashboard</Link>
+            <li><Link href="#">Premium Group Tours</Link></li>
+            <li><Link href="#">Private Tours</Link></li>
+            <li>
+              {details && details.name ? (
+                <Link href="/restaurant/dashboard">Dashboard</Link>
               ) : (
                 <Link href="/login">Login</Link>
               )}
-            </li> */}
+            </li>
           </ul>
-          <span>
-            <Link href="/planmytrip">
-              <button className="text-white rounded-full px-5 py-2 transition-all duration-300 block sm:hidden">
-                Plan My Trip
-              </button>
-            </Link>
-          </span>
         </div>
       </div>
     </>
