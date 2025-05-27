@@ -60,7 +60,7 @@ const AuthHeader = () => {
                 {details && details.name ? (
                   <Link href="/restaurant/dashboard">Dashboard</Link>
                 ) : (
-                  <Link href="/login">Login</Link>
+                  <Link href="/restaurant">Login / SignUp</Link>
                 )}
               </button>
             </span>

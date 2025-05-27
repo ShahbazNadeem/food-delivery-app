@@ -1,8 +1,10 @@
 "use client"
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter()
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -16,7 +18,13 @@ const Login = () => {
     });
     response = await response.json();
     if (response.success) {
-      alert("ok login");
+      const { result } = response
+      delete result.password
+      localStorage.setItem("restaurantUser", JSON.stringify(result))
+      router.push("/restaurant/dashboard");
+    } else {
+      alert("login failed");
+
     }
   };
 
