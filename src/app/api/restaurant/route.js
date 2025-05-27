@@ -13,11 +13,21 @@ export async function GET() {
 export async function POST(req) {
   try {
     let payload = await req.json();
+    let result
     await mongoose.connect(connectionStr, { useNewUrlParser: true })
-    let restaurant = new restaurantSchema(payload)
-    restaurant.save()
-    console.log("Payload received:", payload);
-    return NextResponse.json({ result: payload, success: true });
+    if (payload.login) {
+      // login flow
+      result = await restaurantSchema.findOne({
+        email: payload.email,
+        password: payload.password,
+      });
+    } else {
+      // signUp flow
+      let restaurant = new restaurantSchema(payload)
+      result = restaurant.save()
+      console.log(result)
+    }
+    return NextResponse.json({ result, success: true });
   } catch (error) {
     console.error("Error parsing JSON:", error);
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });

@@ -14,7 +14,7 @@ export default function LoginSwitcher() {
     <>
       {login ? <Login /> : <SignUp />}
       <span
-        className="flex justify-center cursor-pointer"
+        className="flex justify-center cursor-pointer text-white"
         onClick={() => setLogin(!login)}
       >
         {login
