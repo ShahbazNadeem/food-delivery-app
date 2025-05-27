@@ -3,25 +3,48 @@ import React, { useState } from 'react'
 
 const AddFoodItems = () => {
 
-    const [users, setUsers] = useState({
+    const [items, setItems] = useState({
         itemName: "",
         itemPrice: "",
         itemImg: "",
-        itemDescription: "",
+        itemDecription: "",
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setUsers((prevData) => ({
+        setItems((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     }
 
-    const handleSignUp = (e) =>{
+    const handleSignUp = async (e) => {
         e.preventDefault();
-        console.log(users)
+        let resto_id
+        const restaurantData = JSON.parse(localStorage.getItem("restaurantUser"))
+        if (restaurantData) { resto_id = restaurantData._id }
+        const payload = {
+            ...items,
+            resto_id,
+        };
+        let res = await fetch("http://localhost:3000/api/restaurant/foods", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        })
+        res = await res.json();
+        if (res.success) {
+            setItems({
+                itemName: "",
+                itemPrice: "",
+                itemImg: "",
+                itemDecription: "",
+            });
+            alert("thk ja rhy ho")
+        }
     }
     return (
         <>
@@ -33,24 +56,57 @@ const AddFoodItems = () => {
                             <form onSubmit={handleSignUp} className='flex flex-wrap gap-2 border border-color rounded-2xl px-3 py-5 md:max-w-xl'>
                                 <div className='w-full'>
                                     <label htmlFor="itemName" className="block mb-2 text-sm font-medium ">Item name</label>
-                                    <input type="text" name="itemName" id="itemName" placeholder="name of item" required onChange={handleChange} />
+                                    <input
+                                        type="text"
+                                        name="itemName"
+                                        id="itemName"
+                                        placeholder="name of item"
+                                        required
+                                        value={items.itemName}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                                 <div className='w-full'>
                                     <label htmlFor="itemPrice" className="block mb-2 text-sm font-medium ">Item price</label>
-                                    <input type="number" name="itemPrice" id="itemPrice" placeholder="e.g 200" required onChange={handleChange} />
+                                    <input
+                                        type="number"
+                                        name="itemPrice"
+                                        id="itemPrice"
+                                        placeholder="e.g 200"
+                                        required
+                                        value={items.itemPrice}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                                 <div className='w-full'>
                                     <label htmlFor="itemImg" className="block mb-2 text-sm font-medium ">Item image</label>
-                                    <input type="text" name="itemImg" id="itemImg" placeholder="img url" required onChange={handleChange} />
+                                    <input
+                                        type="text"
+                                        name="itemImg"
+                                        id="itemImg"
+                                        placeholder="img url"
+                                        required
+                                        value={items.itemImg}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                                 <div className='w-full'>
-                                    <label htmlFor="itemDescription" className="block mb-2 text-sm font-medium ">Description</label>
-                                    <textarea placeholder="Write your message here..." name="itemDescription" id="itemDescription" className="focus:outline-none focus:ring-0 w-full p-2 border border-color rounded-xl" rows={5} onChange={handleChange}
+                                    <label htmlFor="itemDecription" className="block mb-2 text-sm font-medium ">Description</label>
+                                    <textarea
+                                        placeholder="Write your message here..."
+                                        name="itemDecription"
+                                        id="itemDecription"
+                                        className="focus:outline-none focus:ring-0 w-full p-2 border border-color rounded-xl"
+                                        rows={5}
+                                        required
+                                        value={items.itemDecription}
+                                        onChange={handleChange}
                                     />
                                 </div>
 
                                 <button className='w-full button2'>Submit</button>
                             </form>
+
 
                         </div>
                     </div>

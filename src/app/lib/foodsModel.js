@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-const foodsModel = new mongoose({
+const foodsModel = new mongoose.Schema({
     itemName: String,
     itemPrice: Number,
     itemImg: String,
