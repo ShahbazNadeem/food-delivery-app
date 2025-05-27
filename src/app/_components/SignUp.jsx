@@ -76,7 +76,7 @@ const SignUp = () => {
             <h3 className="md:text-2xl text-center text-white">
               Create your account!
             </h3>
-            <form className="" onSubmit={handleSignUp}>
+            <form onSubmit={handleSignUp}>
               <div className="flex flex-wrap gap-2 text-white">
                 <div className="w-full sm:w-fit flex flex-col gap-2">
                   <div>

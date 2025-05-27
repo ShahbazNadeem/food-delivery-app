@@ -58,7 +58,16 @@ const AuthHeader = () => {
             <span>
               <button className="hidden sm:block">
                 {details && details.name ? (
-                  <Link href="/restaurant/dashboard">Dashboard</Link>
+                  pathName === "/restaurant/dashboard" ? (
+                    <span onClick={() => {
+                      localStorage.removeItem("restaurantUser");
+                      router.push("/restaurant");
+                    }}>
+                      Sign out
+                    </span>
+                  ) : (
+                    <Link href="/restaurant/dashboard">Dashboard</Link>
+                  )
                 ) : (
                   <Link href="/restaurant">Login / SignUp</Link>
                 )}
