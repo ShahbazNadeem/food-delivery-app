@@ -43,7 +43,9 @@ const AddFoodItems = () => {
                 itemImg: "",
                 itemDecription: "",
             });
-            alert("thk ja rhy ho")
+            alert("thk ja rhy ho, Food item add ho gya")
+        }else{
+            alert("Food item add ni huwa")
         }
     }
     return (
