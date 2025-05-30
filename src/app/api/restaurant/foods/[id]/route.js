@@ -8,7 +8,7 @@ export async function GET(req, content) {
     let success = false;
     // console.log(id)
     await mongoose.connect(connectionStr)
-    const result = await foodSchema.find({resto_id:"68355403026f3df17a4de710"})
+    const result = await foodSchema.find({resto_id:id})
     if (result) { success = true }
     return NextResponse.json({ result, success });
 }

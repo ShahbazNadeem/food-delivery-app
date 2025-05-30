@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaUser } from "react-icons/fa";
 import AddFoodItems from './AddFoodItems';
+import FoodItemList from './FoodItemList';
 
 const DashboardMain = () => {
     const [user, setUser] = useState(null);
@@ -32,6 +33,14 @@ const DashboardMain = () => {
                     <div className="container">
                         <button onClick={() => setAddItem(!addItem)}>Add Food</button>
                         {addItem ? <AddFoodItems /> : ""}
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div className="wrapper mx-5 sm:mx-0 mt-5">
+                    <div className="container">
+                        <FoodItemList />
                     </div>
                 </div>
             </section>
