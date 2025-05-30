@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
 
 const FoodItemList = () => {
     const [foodItems, setFoodItems] = useState()
@@ -19,6 +20,27 @@ const FoodItemList = () => {
             alert("food items arenot loading properly")
         }
     }
+
+    const deleteFoodItem = async (id) => {
+        try {
+            let response = await fetch(`/api/restaurant/foods/${id}`, {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                toast.success('Item deleted successfully', { /* toast config */ });
+                loadFoodItems();
+            } else {
+                toast.error("Failed to delete item.");
+            }
+        } catch (error) {
+            toast.error("Network or server error.");
+            console.error(error);
+        }
+    };
+
 
     return (
         <div>
@@ -49,7 +71,7 @@ const FoodItemList = () => {
                                 <td className=''>
                                     <span className='flex gap-2'>
                                         <a href="#" className='text-blue-600'>edit</a>
-                                        <a href="#" className='text-red-600'>delete</a>
+                                        <a href="#" className='text-red-600' onClick={() => deleteFoodItem(item._id)}>delete</a>
                                     </span>
                                 </td>
                             </tr>
@@ -58,6 +80,7 @@ const FoodItemList = () => {
 
                 </tbody>
             </table>
+            <ToastContainer />
         </div>
     )
 }

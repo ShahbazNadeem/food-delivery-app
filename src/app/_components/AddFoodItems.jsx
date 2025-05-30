@@ -44,7 +44,7 @@ const AddFoodItems = () => {
                 itemDecription: "",
             });
             alert("thk ja rhy ho, Food item add ho gya")
-        }else{
+        } else {
             alert("Food item add ni huwa")
         }
     }
