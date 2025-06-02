@@ -38,7 +38,7 @@ const DashboardMain = () => {
             </section>
 
             <section>
-                <div className="wrapper mx-5 sm:mx-0 mt-5">
+                <div className="wrapper mx-5 sm:mx-0 mt-5 mb-10">
                     <div className="container">
                         <FoodItemList />
                     </div>
