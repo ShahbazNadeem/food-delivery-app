@@ -1,19 +1,40 @@
 "use client"
 import Layout from '@components/layout/Layout'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const EditFoodItems = (props) => {
     const { id } = React.use(props.params)
-    console.log(id)
     const router = useRouter()
-
     const [items, setItems] = useState({
         itemName: "",
         itemPrice: "",
         itemImg: "",
         itemDecription: "",
     });
+
+    useEffect(() => {
+        handleLoadFoodItem()
+    }, [])
+    const handleLoadFoodItem = async () => {
+        try {
+            let response = await fetch(`http://localhost:3000/api/restaurant/foods/edit/${id}`)
+            response = await response.json()
+
+            if (response.success && response.result) {
+                setItems({
+                    itemName: response.result.itemName || "",
+                    itemPrice: response.result.itemPrice || "",
+                    itemImg: response.result.itemImg || "",
+                    itemDecription: response.result.itemDecription || "",
+                });
+            } else {
+                console.error("Failed to load item:", response.message || "Unknown error");
+            }
+        } catch (error) {
+            console.error("Error fetching food item:", error);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -96,7 +117,7 @@ const EditFoodItems = (props) => {
                                 <button className='w-full button2'>Submit</button>
                             </form>
                             <div className="flex justify-end w-full">
-                                <span className='text-blue-500 cursor-pointer' onClick={()=>router.push('../dashboard')}>back to food items list</span>
+                                <span className='text-blue-500 cursor-pointer' onClick={() => router.push('../dashboard')}>back to food items list</span>
                             </div>
 
                         </div>
