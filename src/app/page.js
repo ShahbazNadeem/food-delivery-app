@@ -1,5 +1,4 @@
-import Image from "next/image";
-import Layout from "@components/layout/Layout";
+import CommenLayout from "@components/layout/CommenLayout";
 export const metadata = {
   title: 'Home',
   description: 'Login or sign up to access the Restaurant app.',
@@ -7,8 +6,8 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <Layout>
+    <CommenLayout>
       <h1>food delivery app</h1>
-    </Layout>
+    </CommenLayout>
   );
 }
