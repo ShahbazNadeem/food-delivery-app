@@ -1,7 +1,12 @@
 "use client"
+import Layout from '@components/layout/Layout'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
-const AddFoodItems = () => {
+const EditFoodItems = (props) => {
+    const { id } = React.use(props.params)
+    console.log(id)
+    const router = useRouter()
 
     const [items, setItems] = useState({
         itemName: "",
@@ -19,7 +24,7 @@ const AddFoodItems = () => {
         }));
     }
 
-    const handleAddFood = async (e) => {
+    const handleEditFood = async (e) => {
         e.preventDefault();
         let resto_id
         const restaurantData = JSON.parse(localStorage.getItem("restaurantUser"))
@@ -28,34 +33,16 @@ const AddFoodItems = () => {
             ...items,
             resto_id,
         };
-        let res = await fetch("http://localhost:3000/api/restaurant/foods", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        })
-        res = await res.json();
-        if (res.success) {
-            setItems({
-                itemName: "",
-                itemPrice: "",
-                itemImg: "",
-                itemDecription: "",
-            });
-            alert("thk ja rhy ho, Food item add ho gya")
-        } else {
-            alert("Food item add ni huwa")
-        }
+
     }
     return (
-        <>
+        <Layout>
             <section>
-                <div className="wrapper mt-5">
+                <div className="wrapper my-28">
                     <div className="container">
-                        <div className="flex flex-col justify-center items-center">
-                            <h2>Add new Food Items</h2>
-                            <form onSubmit={handleAddFood} className='flex flex-wrap gap-2 border border-color rounded-2xl px-3 py-5 md:max-w-xl'>
+                        <div className="flex flex-col justify-center items-center gap-3">
+                            <h2>Update Food Item</h2>
+                            <form onSubmit={handleEditFood} className='flex flex-wrap gap-2 border border-color rounded-2xl px-3 py-5 md:max-w-xl'>
                                 <div className='w-full'>
                                     <label htmlFor="itemName" className="block mb-2 text-sm font-medium ">Item name</label>
                                     <input
@@ -108,14 +95,16 @@ const AddFoodItems = () => {
 
                                 <button className='w-full button2'>Submit</button>
                             </form>
-
+                            <div className="flex justify-end w-full">
+                                <span className='text-blue-500 cursor-pointer' onClick={()=>router.push('../dashboard')}>back to food items list</span>
+                            </div>
 
                         </div>
                     </div>
                 </div>
             </section>
-        </>
+        </Layout>
     )
 }
 
-export default AddFoodItems
+export default EditFoodItems
