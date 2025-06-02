@@ -60,7 +60,7 @@ const SignUp = () => {
         delete result.password;
         localStorage.setItem("restaurantUser", JSON.stringify(result));
         console.log("Saved user to localStorage:", result);
-        router.push("/restaurant/dashboard")
+        router.push("/restaurant")
       }
     } catch (err) {
       console.error("Fetch failed:", err);

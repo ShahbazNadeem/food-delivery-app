@@ -9,102 +9,134 @@ const FoodItemList = () => {
     const router = useRouter()
 
     useEffect(() => {
-        loadFoodItems()
+        fetchFoodItems()
     }, [])
 
-    const loadFoodItems = async () => {
+    const fetchFoodItems = async () => {
+        setLoading(true)
         try {
-            setLoading(true)
-            let restaurantData = JSON.parse(localStorage.getItem("restaurantUser"))
-            let resto_id = restaurantData._id
-            let res = await fetch(`http://localhost:3000/api/restaurant/foods/${resto_id}`)
-            res = await res.json()
+            const restaurantData = JSON.parse(localStorage.getItem("restaurantUser")) ?? {}
+            const restoId = restaurantData?._id
 
-            if (res.success) {
-                setFoodItems(res.result)
+            if (!restoId) {
+                toast.error("Restaurant ID not found in local storage.")
+                return
+            }
+
+            const response = await fetch(`/api/restaurant/foods/${restoId}`)
+            const result = await response.json()
+
+            if (result.success) {
+                setFoodItems(result.result)
             } else {
-                toast.error("Food items are not loading properly")
+                toast.error("Failed to load food items.")
             }
         } catch (error) {
-            toast.error("Network error while loading food items")
-            console.error(error)
+            console.error("Fetch error:", error)
+            toast.error("An error occurred while loading items.")
         } finally {
             setLoading(false)
         }
     }
 
-    const deleteFoodItem = async (id) => {
+    const handleDelete = async (id) => {
         try {
-            let response = await fetch(`/api/restaurant/foods/${id}`, {
-                method: 'DELETE'
-            });
+            const response = await fetch(`/api/restaurant/foods/${id}`, {
+                method: 'DELETE',
+            })
+            const result = await response.json()
 
-            const data = await response.json();
-
-            if (data.success) {
-                toast.success('Item deleted successfully');
-                loadFoodItems();
+            if (result.success) {
+                toast.success('Item deleted successfully.')
+                fetchFoodItems()
             } else {
-                toast.error("Failed to delete item.");
+                toast.error('Failed to delete item.')
             }
         } catch (error) {
-            toast.error("Network or server error.");
-            console.error(error);
+            console.error("Delete error:", error)
+            toast.error('An error occurred while deleting item.')
         }
-    };
+    }
 
-    const renderSkeletonRow = (index) => (
-        <tr key={index} className="animate-pulse border-t">
-            <td className="p-2"><div className="h-4 bg-gray-300 rounded w-6"></div></td>
-            <td className="p-2"><div className="h-4 bg-gray-300 rounded w-24"></div></td>
-            <td className="p-2"><div className="h-4 bg-gray-300 rounded w-16"></div></td>
-            <td className="p-2"><div className="h-4 bg-gray-300 rounded w-40"></div></td>
-            <td className="p-2"><div className="h-20 w-20 bg-gray-300 rounded"></div></td>
-            <td className="p-2"><div className="h-4 bg-gray-300 rounded w-12"></div></td>
+    const renderSkeletonRow = (key) => (
+        <tr key={key} className="animate-pulse border-t">
+            {[6, 24, 16, 40, 80, 12].map((width, i) => (
+                <td key={i} className="p-2">
+                    <div className={`h-4 bg-gray-300 rounded w-${width}`} />
+                </td>
+            ))}
         </tr>
     )
 
+    const renderRows = () => {
+        if (loading) {
+            return Array.from({ length: 5 }).map((_, i) => renderSkeletonRow(i))
+        }
+
+        if (foodItems.length === 0) {
+            return (
+                <tr>
+                    <td colSpan="6" className="text-center p-4 text-gray-600">
+                        Your restaurant has no items yet.
+                    </td>
+                </tr>
+            )
+        }
+
+        return foodItems.map((item, index) => (
+            <tr key={item._id} className="font-medium text-gray-900 whitespace-nowrap border-t">
+                <td>{index + 1}</td>
+                <td>{item.itemName}</td>
+                <td>{item.itemPrice} Rs</td>
+                <td>{item.itemDecription}</td>
+                <td>
+                    <figure>
+                        <img
+                            src={item.itemImg}
+                            width={100}
+                            height={100}
+                            alt={item.itemName ?? 'Food Item'}
+                            className="object-cover rounded"
+                        />
+                    </figure>
+                </td>
+                <td>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => router.push(`dashboard/${item._id}`)}
+                            className="text-blue-600 hover:underline"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => handleDelete(item._id)}
+                            className="text-red-600 hover:underline"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        ))
+    }
+
     return (
-        <div>
+        <div className="overflow-x-auto">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500">
                 <caption className="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                     Your food products
                 </caption>
-                <thead className='text-white bg-gray-800 text-sm border-t '>
+                <thead className="text-white bg-gray-800 text-sm border-t">
                     <tr>
-                        <th scope="col">Sr.</th>
-                        <th scope="col">Item name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Action</th>
+                        <th>Sr.</th>
+                        <th>Item name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {loading ? (
-                        Array.from({ length: 5 }).map((_, index) => renderSkeletonRow(index))
-                    ) : (
-                        foodItems?.map((item, key) => (
-                            <tr key={key} className='font-medium text-gray-900 whitespace-nowrap border-t'>
-                                <td>{key + 1}</td>
-                                <td>{item.itemName}</td>
-                                <td>{item.itemPrice} Rs</td>
-                                <td>{item.itemDecription}</td>
-                                <td>
-                                    <figure>
-                                        <img src={item.itemImg} width={100} height={100} alt={item.itemName} />
-                                    </figure>
-                                </td>
-                                <td>
-                                    <span className='flex gap-2'>
-                                        <a onClick={() => router.push(`dashboard/${item._id}`)} className='text-blue-600 cursor-pointer'>edit</a>
-                                        <a onClick={() => deleteFoodItem(item._id)} className='text-red-600 cursor-pointer'>delete</a>
-                                    </span>
-                                </td>
-                            </tr>
-                        ))
-                    )}
-                </tbody>
+                <tbody>{renderRows()}</tbody>
             </table>
             <ToastContainer />
         </div>
