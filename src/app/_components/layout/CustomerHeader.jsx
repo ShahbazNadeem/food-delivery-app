@@ -27,7 +27,7 @@ const CustomerHeader = () => {
                             <li><Link href="#">Add Restaurant</Link></li>
                         </ul>
                         <span className='lg:flex gap-3 hidden'>
-                            <button>Login / SignUp</button>
+                           <Link href='/restaurant'> <button>Login / SignUp</button></Link>
                             <span className="cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">
                                 Cart <IoCart className="text-inherit group-hover:text-white transition-colors duration-300" />
                             </span>
@@ -59,7 +59,11 @@ const CustomerHeader = () => {
                         <li><Link href="/">Home</Link></li>
                         <li><Link href="#">Menu</Link></li>
                         <li><Link href="#">Add Restaurant</Link></li>
-                        <button>Login / SignUp</button>
+                        {/* <button> */}
+                        <Link href='/restaurant'>
+                            Login / SignUp
+                        </Link>
+                        {/* </button> */}
                         <span className="cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">
                             Cart <IoCart className="text-inherit group-hover:text-white transition-colors duration-300" />
                         </span>

@@ -52,7 +52,9 @@ const AuthHeader = () => {
             </Link>
             <ul className="lg:flex justify-between xl:gap-10 gap-5 font-marcellus lg:text-[14px] xl:text-[16px] hidden">
               <li><Link href="/">Home</Link></li>
-              <li><Link href="/restaurant">Resturant</Link></li>
+              {/* <li><Link href="/restaurant">Resturant</Link></li> */}
+              <li><Link href="#">Demo</Link></li>
+              <li><Link href="#">Demo</Link></li>
               <li><Link href="#">Demo</Link></li>
             </ul>
             <span>
