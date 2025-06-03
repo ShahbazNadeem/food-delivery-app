@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import Link from 'next/link'
 import projectLogo from "@/images/projectLogo.png"
@@ -8,6 +8,14 @@ import { IoClose, IoCart } from "react-icons/io5";
 
 const CustomerHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [details, setDetails] = useState();
+    useEffect(() => {
+        const data = localStorage.getItem("restaurantUser");
+        if (data) {
+            setDetails(JSON.parse(data));
+        }
+
+    }, []);
     return (
         <>
             <header className="fixed top-6 left-1/2 -translate-x-1/2 w-full z-10 max-w-[1440px] mx-auto bg-[#ffffff4d] backdrop-blur-md rounded-full">
@@ -27,7 +35,11 @@ const CustomerHeader = () => {
                             <li><Link href="#">Add Restaurant</Link></li>
                         </ul>
                         <span className='lg:flex gap-3 hidden'>
-                           <Link href='/restaurant'> <button>Login / SignUp</button></Link>
+
+                            <button>{details ? (<Link href='/restaurant/dashboard'>Dashboard</Link>) :
+                                (<Link href='/restaurant'>Login / SignUp</Link>)}
+                            </button>
+
                             <span className="cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">
                                 Cart <IoCart className="text-inherit group-hover:text-white transition-colors duration-300" />
                             </span>

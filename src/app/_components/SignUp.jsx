@@ -13,7 +13,7 @@ const SignUp = () => {
     contact: "",
     password: "",
   });
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -60,7 +60,9 @@ const SignUp = () => {
         delete result.password;
         localStorage.setItem("restaurantUser", JSON.stringify(result));
         console.log("Saved user to localStorage:", result);
-        router.push("/restaurant")
+        setTimeout(() => {
+          router.push("/restaurant/dashboard");
+        }, 100);
       }
     } catch (err) {
       console.error("Fetch failed:", err);
@@ -101,7 +103,7 @@ const SignUp = () => {
                   </div>
                   <div>
                     <label htmlFor="contact" className="block mb-2 text-sm font-medium">Contact</label>
-                    <input type="tel" name="contact" id="contact" value={users.contact} onChange={handleChange} placeholder="1234-6789101"  autoComplete="tel" required />
+                    <input type="tel" name="contact" id="contact" value={users.contact} onChange={handleChange} placeholder="1234-6789101" autoComplete="tel" required />
                   </div>
                   <div>
                     <label htmlFor="password" className="block mb-2 text-sm font-medium">Password</label>

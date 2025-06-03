@@ -26,7 +26,7 @@ export async function POST(req) {
     } else {
       // signUp flow
       let restaurant = new restaurantSchema(payload)
-      result = restaurant.save()
+      result = await restaurant.save()
       if (result) { success = true }
     }
     return NextResponse.json({ result, success });
