@@ -18,7 +18,7 @@ const CustomerHeader = () => {
     }, []);
     return (
         <>
-            <header className="fixed top-6 left-1/2 -translate-x-1/2 w-full z-10 max-w-[1440px] mx-auto bg-[#ffffff4d] backdrop-blur-md rounded-full">
+            <header className="fixed top-6 left-1/2 -translate-x-1/2 w-full z-50 max-w-[1440px] mx-auto bg-[#ffffff4d] backdrop-blur-md rounded-full">
                 <nav className="container mx-auto">
                     <div className="flex justify-between items-center flex-row-reverse md:flex-row py-3 px-5">
                         <span onClick={() => setIsOpen(true)} className="lg:hidden bg-transparent">
