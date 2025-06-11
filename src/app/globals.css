@@ -64,7 +64,8 @@ h2 {
 h3 {
   font-size: 24px !important;
   line-height: 24.8px !important;
-  font-family: var(--font-inter);
+  /* font-family: var(--font-inter); */
+  font-family: var(--font-marcellus);
 }
 
 h4 {
