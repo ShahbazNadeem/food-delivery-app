@@ -36,7 +36,10 @@ const BannerSearch = () => {
       const res = await fetch(`http://localhost:3000/api/customer${query ? `?${query}` : ''}`);
       const data = await res.json();
       if (data.success) {
-        const cleaned = data.result.map(({ password, ...rest }) => rest);
+        const cleaned = data.result.map(({ password, _id, ...rest }) => ({
+          ...rest,
+          id: _id,
+        }));
         setRestaurants(cleaned);
       }
     } catch (error) {
@@ -149,7 +152,7 @@ const BannerSearch = () => {
                     <span>{contact}</span>
                   </div>
                   <span
-                    onClick={() => { router.push(`explore/${name}`) }}
+                    onClick={() => { router.push(`explore/${name}?id=${id}`) }}
                     className="cursor-pointer mt-auto flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#ffffff] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white hover:border-[#1a2b48]"
                   >
                     View Details
@@ -159,7 +162,7 @@ const BannerSearch = () => {
             ))}
         </div>
         {!isLoading && visibleCount < restaurants.length && (
-          <div className="text-center mt-6">
+          <div className="text-center my-6">
             <button
               onClick={() => setVisibleCount((prev) => prev + 4)}
               className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition"
@@ -176,7 +179,7 @@ const BannerSearch = () => {
 export default BannerSearch;
 
 const RestaurantCardSkeleton = () => (
-  <div className="relative h-72 rounded-2xl overflow-hidden shadow-xl animate-pulse bg-gray-200">
+  <div className="relative h-72 my-10 rounded-2xl overflow-hidden shadow-xl animate-pulse bg-gray-200">
     <div className="absolute inset-0 bg-gray-300" />
     <div className="relative z-10 p-5 flex flex-col justify-end h-full w-full">
       <div className="bg-gray-400 h-6 w-2/3 mb-2 rounded" />
