@@ -6,7 +6,7 @@ const CommenLayout = ({ children }) => {
     return (
         <>
             <CustomerHeader />
-            <div className='my-24'>{children}</div>
+            {children}
             <Footer />
         </>
     )
