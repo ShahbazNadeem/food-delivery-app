@@ -1,8 +1,8 @@
 import React from 'react'
 import CommenLayout from "@components/layout/CommenLayout";
 import Banner from '@components/Banner';
-import FeaturedProducts from '@/app/_components/FeaturedProducts';
 import { detailPageFeatured } from '@/app/data/data';
+import FeaturedProductsCard from '@components/FeaturedProductsCard';
 
 export const metadata = {
     title: 'Restaurant Detail Page',
@@ -23,17 +23,7 @@ const page = ({ params, searchParams }) => {
             <section>
                 <div className="wrapper">
                     <div className="container">
-                        <FeaturedProducts>
-                            {detailPageFeatured.map((item) => (
-                                <FeaturedProducts.Card key={item.id}>
-                                    <FeaturedProducts.Image src={item.img} alt={item.name} />
-                                    <FeaturedProducts.Details>
-                                        <FeaturedProducts.Title>{item.name}</FeaturedProducts.Title>
-                                        <FeaturedProducts.Price>Rs.{item.price}</FeaturedProducts.Price>
-                                    </FeaturedProducts.Details>
-                                </FeaturedProducts.Card>
-                            ))}
-                        </FeaturedProducts>
+                        <FeaturedProductsCard data={detailPageFeatured}/>
                     </div>
                 </div>
             </section>

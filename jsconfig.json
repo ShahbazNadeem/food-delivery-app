@@ -3,11 +3,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/globalcss":["./src/app/globals.css"],
+      "@/context":["./src/context/"],
       "@components/*": ["./src/app/_components/*"],
       "@/images/*": ["./public/images/*"],
       "@/videos/*": ["./public/videos/*"],
       "@/data/*": ["./src/app/jsonData/*"],
-      "@/redux/*": ["./src/redux/*"],
       "@/svg/*": ["./public/svg/*"],
     }
   }
