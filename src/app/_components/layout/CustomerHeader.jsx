@@ -43,14 +43,14 @@ const CustomerHeader = () => {
                             </button>
 
                             {/* ✅ Cart icon with count */}
-                            <span className="relative cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">
+                            <Link href='/cart' className="relative cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">
                                 Cart <IoCart className="text-inherit group-hover:text-white transition-colors duration-300" />
                                 {cart.length > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
                                         {cart.length}
                                     </span>
                                 )}
-                            </span>
+                            </Link>
 
                         </span>
                     </div>
@@ -85,14 +85,14 @@ const CustomerHeader = () => {
                         </Link>
                         {/* </button> */}
                         {/* ✅ Cart in drawer */}
-                        <span className="relative cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">
+                        <Link href='/cart' className="relative cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">
                             Cart <IoCart className="text-inherit group-hover:text-white transition-colors duration-300" />
                             {cart.length > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
                                     {cart.length}
                                 </span>
                             )}
-                        </span>
+                        </Link>
                     </ul>
                 </div>
             </div>

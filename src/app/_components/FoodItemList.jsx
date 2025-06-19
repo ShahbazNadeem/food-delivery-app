@@ -27,7 +27,7 @@ const FoodItemList = () => {
             const result = await response.json()
 
             if (result.success) {
-                setFoodItems(result.result)
+                setFoodItems(result.result) 
             } else {
                 toast.error("Failed to load food items.")
             }
