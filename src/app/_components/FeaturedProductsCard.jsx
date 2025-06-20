@@ -6,7 +6,7 @@ const FeaturedProductsCard = ({ data }) => {
     return (
         <FeaturedProducts>
             {data.map((item) => (
-                <FeaturedProducts.Card key={item.id}>
+                <FeaturedProducts.Card key={item._id}>
                     <FeaturedProducts.Image src={item.img} alt={item.name} item={item} />
                     <FeaturedProducts.Details>
                         <FeaturedProducts.Title>{item.name}</FeaturedProducts.Title>

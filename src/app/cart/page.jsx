@@ -6,7 +6,7 @@ import CommenLayout from '../_components/layout/CommenLayout';
 
 const CartPage = () => {
   const { cart, removeFromCart } = useCart();
-
+console.log(cart, 'cart')
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + (item.price || item.itemPrice || 0), 0);
   };
@@ -50,7 +50,7 @@ const CartPage = () => {
                           Rs {item.price || item.itemPrice || 0}
                         </p>
                         <button
-                          onClick={() => removeFromCart(item._id)}
+                          onClick={() => removeFromCart(item.uniqueId)}
                           className="text-red-500 hover:underline text-sm"
                         >
                           Remove

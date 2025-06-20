@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const CartContext = createContext();
 
@@ -17,13 +18,17 @@ export const CartProvider = ({ children }) => {
     useEffect(() => {
         localStorage.setItem('addToCart(FDA)', JSON.stringify(cart));
     }, [cart]);
+
+
     const addToCart = (item) => {
         setCart((prev) => [...prev, item]);
     };
 
-    const removeFromCart = (id) => {
-        setCart((prev) => prev.filter((item) => item._id !== id));
+
+    const removeFromCart = (uniqueId) => {
+        setCart((prev) => prev.filter((item) => item.uniqueId !== uniqueId));
     };
+
 
     return (
         <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
