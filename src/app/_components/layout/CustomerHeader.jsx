@@ -42,7 +42,6 @@ const CustomerHeader = () => {
                                 (<Link href='/restaurant'>Login / SignUp</Link>)}
                             </button>
 
-                            {/* ✅ Cart icon with count */}
                             <Link href='/cart' className="relative cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">
                                 Cart <IoCart className="text-inherit group-hover:text-white transition-colors duration-300" />
                                 {cart.length > 0 && (
