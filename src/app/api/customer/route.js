@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
     let queryParams = req.nextUrl.searchParams
-    console.log(queryParams.get("location"))
     let filter = {}
     let success = false
     if (queryParams.get("location")) {

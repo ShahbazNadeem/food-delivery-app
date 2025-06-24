@@ -10,10 +10,6 @@ const Banner = ({ name, id, showDetails = true }) => {
     const [filteredItems, setFilteredItems] = useState([]);
     const { addToCart } = useCart();
 
-    console.log('allfoods', allFoods)
-    console.log('id', id)
-    console.log('filteredItems', filteredItems)
-
     useEffect(() => {
         if (!loading && id) {
             const items = allFoods.filter(item => item.resto_id === id);

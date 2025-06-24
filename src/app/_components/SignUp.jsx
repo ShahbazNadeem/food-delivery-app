@@ -34,7 +34,6 @@ const SignUp = () => {
         body: JSON.stringify(users),
       });
 
-      console.log("Raw response object:", res); // ✅
 
       if (!res.ok) {
         const err = await res.json();
@@ -59,7 +58,6 @@ const SignUp = () => {
         const { result } = res;
         delete result.password;
         localStorage.setItem("restaurantUser", JSON.stringify(result));
-        console.log("Saved user to localStorage:", result);
         setTimeout(() => {
           router.push("/restaurant/dashboard");
         }, 100);

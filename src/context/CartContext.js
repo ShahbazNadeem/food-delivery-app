@@ -6,7 +6,6 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  // ✅ Load cart from localStorage on mount
   useEffect(() => {
     const storedCart = localStorage.getItem('addToCart(FDA)');
     if (storedCart) {
@@ -19,12 +18,10 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Save cart to localStorage when it changes
   useEffect(() => {
     localStorage.setItem('addToCart(FDA)', JSON.stringify(cart));
   }, [cart]);
 
-  // ✅ Add or update cart item
   const addToCart = (item) => {
     const exists = cart.find((i) => i._id === item._id);
     if (exists) {
