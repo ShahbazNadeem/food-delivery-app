@@ -20,7 +20,7 @@ export const RestaurantProvider = ({ children }) => {
     try {
       const res = await fetch('http://localhost:3000/api/customer/locations');
       const { success, result } = await res.json();
-      if (success) setLocations(result);
+      if (success) setLocations(result); 
     } catch (err) {
       console.error('Error fetching locations:', err);
     }

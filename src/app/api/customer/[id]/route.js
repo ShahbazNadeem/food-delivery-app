@@ -12,4 +12,4 @@ export async function GET(req, content) {
     const foodItems = await foodSchema.find({ resto_id: id })
     if (details) { success = true }
     return NextResponse.json({ details, foodItems, success })
-}
+} 
