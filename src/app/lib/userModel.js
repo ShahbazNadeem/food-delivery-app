@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const restaurantModel = new mongoose.Schema({
+const uerModel = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
@@ -9,4 +9,4 @@ const restaurantModel = new mongoose.Schema({
     contact: String,
 })
 
-export const restaurantSchema = mongoose.models?.restaurants || mongoose.model("restaurants", restaurantModel)
+export const userSchema = mongoose.models?.users || mongoose.model("users", uerModel)
