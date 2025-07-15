@@ -1,10 +1,8 @@
 "use client"
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
 
 const UserUserSignUp = () => {
-    const router = useRouter()
     const [users, setUsers] = useState({
         name: "",
         email: "",
@@ -13,6 +11,7 @@ const UserUserSignUp = () => {
         contact: "",
         password: "",
     });
+    const [signedUp, setSignedUp] = useState(false)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -53,7 +52,17 @@ const UserUserSignUp = () => {
                 });
                 const { result } = res;
                 delete result.password;
-                localStorage.setItem("User", JSON.stringify(result));
+                setSignedUp(true)
+                setUsers({
+                    name: "",
+                    email: "",
+                    city: "",
+                    address: "",
+                    contact: "",
+                    password: "",
+                })
+
+                // localStorage.setItem("User", JSON.stringify(result));
             } else {
                 toast.error(res.result || "Registration failed", {
                     position: "top-center",
@@ -61,9 +70,6 @@ const UserUserSignUp = () => {
                     theme: "dark",
                 });
             }
-            // setTimeout(() => {
-            //   router.push("/restaurant/dashboard");
-            // }, 100);
         } catch (err) {
             console.error("Fetch failed:", err);
             toast.error("Network or server error.");
@@ -78,6 +84,11 @@ const UserUserSignUp = () => {
                         <h3 className="md:text-2xl text-center text-white">
                             Create your new account!
                         </h3>
+                        {signedUp &&
+                            <h3 className="md:text-2xl text-center text-white">
+                                Now login first
+                            </h3>
+                        }
                         <form onSubmit={handleUserUserSignUp}>
                             <div className="flex flex-wrap gap-2 text-white">
                                 <div className="w-full sm:w-fit flex flex-col gap-2">

@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
-const UserLogin = () => { 
+const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter()
@@ -9,24 +9,22 @@ const UserLogin = () => {
   const handleUserLogin = async (e) => {
     e.preventDefault();
 
-    let response = await fetch("http://localhost:3000/api/user", {
+    let response = await fetch("http://localhost:3000/api/user/login", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password, login: true }),
+      body: JSON.stringify({ email, password }),
     });
     response = await response.json();
     if (response.success) {
-      const { result } = response
-      delete result.password
-      localStorage.setItem("User", JSON.stringify(result))
-      router.push("/ ");
+      const { user } = response
+      localStorage.setItem("User", JSON.stringify(user))
+      router.push("/");
     } else {
       alert("login failed");
-
     }
-  }; 
+  };
 
 
   return (

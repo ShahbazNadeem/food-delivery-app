@@ -10,7 +10,7 @@ export async function GET() {
         return NextResponse.json({ success: true, result });
     } catch (error) {
         console.error("Error fetching food items:", error);
-        return NextResponse.json({ success: false, error: "Something went wrong!" });
+        return NextResponse.json({ success: false, error });
     }
 }
 
