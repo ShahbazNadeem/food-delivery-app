@@ -2,7 +2,7 @@ import React from 'react'
 import CommenLayout from '../_components/layout/CommenLayout'
 import UserLoginSwitcher from '../_components/user/UserLoginSwitcher'
 
-const UserSignUP = () => {
+const Page = () => {
     return (
         <CommenLayout>
             <section>
@@ -23,4 +23,4 @@ const UserSignUP = () => {
     )
 }
 
-export default UserSignUP
+export default Page

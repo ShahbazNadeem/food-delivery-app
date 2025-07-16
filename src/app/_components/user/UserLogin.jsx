@@ -1,10 +1,13 @@
 "use client"
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 const UserLogin = () => {
+  const router = useRouter()
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter()
 
   const handleUserLogin = async (e) => {
     e.preventDefault();
@@ -20,7 +23,8 @@ const UserLogin = () => {
     if (response.success) {
       const { user } = response
       localStorage.setItem("User", JSON.stringify(user))
-      router.push("/");
+      router.replace(callbackUrl)
+      // router.push("/");
     } else {
       alert("login failed");
     }

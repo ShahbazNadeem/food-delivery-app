@@ -6,13 +6,15 @@ import projectLogo from "@/images/projectLogo.png"
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose, IoCart } from "react-icons/io5";
 import { useCart } from '@/context/CartContext';
+import { FaUser } from "react-icons/fa";
+
 
 const CustomerHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [details, setDetails] = useState();
     const { cart } = useCart();
     useEffect(() => {
-        const data = localStorage.getItem("restaurantUser");
+        const data = localStorage.getItem("User");
         if (data) {
             setDetails(JSON.parse(data));
         }
@@ -38,8 +40,8 @@ const CustomerHeader = () => {
                         </ul>
                         <span className='lg:flex gap-3 hidden'>
 
-                            <button>{details ? (<Link href='/restaurant/dashboard'>Dashboard</Link>) :
-                                (<Link href='/restaurant'>Login / SignUp</Link>)}
+                            <button>{details ? (<Link href='/profile' className='flex gap-2 items-center'><span><FaUser/></span>Profile</Link>) :
+                                (<Link href='/user-auth'>Login / SignUp</Link>)}
                             </button>
 
                             <Link href='/cart' className="relative cursor-pointer flex justify-center items-center gap-1 px-3 py-2 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">

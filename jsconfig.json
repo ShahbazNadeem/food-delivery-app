@@ -8,7 +8,7 @@
       "@/images/*": ["./public/images/*"],
       "@/videos/*": ["./public/videos/*"],
       "@/data/*": ["./src/app/jsonData/*"],
-      "@/svg/*": ["./public/svg/*"],
+      "@/lottie/*": ["./public/lottie/*"],
     }
   }
 }

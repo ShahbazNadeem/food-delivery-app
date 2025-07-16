@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 
-const UserUserSignUp = () => {
+const UserSignUp = () => {
     const [users, setUsers] = useState({
         name: "",
         email: "",
@@ -134,4 +134,4 @@ const UserUserSignUp = () => {
     )
 }
 
-export default UserUserSignUp
+export default UserSignUp
