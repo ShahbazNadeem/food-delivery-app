@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import UserLogin from './UserLogin';
 import UserSignUp from './UserSignUp';
 
@@ -12,7 +12,8 @@ export default function UserLoginSwitcher() {
 
   return (
     <>
-      {login ? <UserLogin /> : <UserSignUp />}
+    
+      {login ? <Suspense><UserLogin /></Suspense> : <UserSignUp />}
       <span
         className="flex justify-center cursor-pointer text-white"
         onClick={() => setLogin(!login)}

@@ -11,12 +11,12 @@ const OrderPage = () => {
   }, [])
   return (
     <section>
-      <div className="container ">
+      <div className="">
         {user && (
           <div className="max-w-6xl mx-auto mt-6 bg-white rounded-xl shadow-lg p-4 mb-6 flex justify-between items-center">
             <div className="">
               <div className="">
-                <h2 className="text-xl font-semibold mb-2">Customer Information</h2>
+                <h2 className="mb-2">Customer Information</h2>
                 <p><strong>Name:</strong> {user.name}</p>
                 <p><strong>Email:</strong> {user.email}</p>
                 <p><strong>Contact:</strong> {user.contact}</p>

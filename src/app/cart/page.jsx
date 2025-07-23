@@ -23,7 +23,7 @@ const CartPage = () => {
   const scrollToCheckout = () => {
     setTimeout(() => {
       checkoutRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100); // slight delay to ensure ref is available
+    }, 100);
   };
 
   const [lock, setLock] = useState(false)
@@ -53,6 +53,40 @@ const CartPage = () => {
   };
 
   const calculateTax = () => Math.round(calculateTotal() * 0.05);
+  const dilevery_boy_id = '123456789'
+
+  const orderNow = async () => {
+    let cart = JSON.parse(localStorage.getItem('addToCart(FDA)'))
+    if (user) {
+      const user_Id = user._id;
+      const subtotal = calculateTotal();
+      const tax = calculateTax();
+      const totalAmount = subtotal + tax;
+
+      const collection = {
+        user_Id,
+        order: cart,
+        // deliveryBoy_Id: dilevery_boy_id,
+        deliveryStatus: 'ok',
+        amount: totalAmount,
+      };
+
+      console.log('Order Collection:', collection);
+      let res = await fetch('http://localhost:3000/api/orders', {
+        method: 'POST',
+        body: JSON.stringify(collection)
+      })
+      res = await res.json()
+      if (res.success) {
+        alert('ok')
+      } else {
+        alert('ok')
+      }
+    } else {
+      console.log('order cancelled');
+    }
+  };
+
 
   return (
     <CommenLayout>
@@ -150,7 +184,7 @@ const CartPage = () => {
                       Proceed to Checkout
                     </button>
                   ) : (
-                    
+
                     <Link href={`/user-auth?callbackUrl=${callbackUrl}`}>
                       <button className="w-full mt-6 font-medium rounded-lg hover:bg-gray-900 transition">
                         Login to Proceed
@@ -166,14 +200,17 @@ const CartPage = () => {
           <OrderPage />
 
           {user &&
-            <div className="max-w-6xl mx-auto mt-6 bg-white rounded-xl shadow-lg p-4" ref={checkoutRef}>
-              <h2>Checkout Method</h2>
-              <p>Currently we only deal in COD</p>
-              <p>your order will be delivered at your footstep soon!</p>
+            <div className="max-w-6xl mx-auto mt-6 bg-white rounded-xl shadow-lg p-4 flex justify-between items-center flex-wrap" ref={checkoutRef}>
+              <div className="">
+                <h2 className='mb-2'>Checkout Method</h2>
+                <p>Currently we only deal in COD</p>
+                <p>your order will be delivered at your footstep soon!</p>
+              </div>
+              <div className="lg:min-w-44 flex justify-center items-center mt-2 sm:mt-0">
+                <button onClick={orderNow}>Order now</button>
+              </div>
             </div>
           }
-
-
         </div>
       </section>
     </CommenLayout >
