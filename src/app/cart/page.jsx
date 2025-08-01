@@ -98,13 +98,10 @@ const CartPage = () => {
             <div className="pt-30">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">🛒 Your Cart</h2>
               <div className="flex justify-center items-center flex-col gap-1">
-              <h3>Currently your cart is empty</h3>
-              <span>Go to home page and <Link href='/' className='text-blue-700 underline'>shop first</Link></span>
+                <h3>Currently your cart is empty</h3>
+                <span>Go to home page and <Link href='/' className='text-blue-700 underline'>shop first</Link></span>
               </div>
-                
-
             </div>
-
           </div>
         </div>
       </CommenLayout>

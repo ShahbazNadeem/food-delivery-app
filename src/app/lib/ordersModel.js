@@ -1,20 +1,3 @@
-// import mongoose from "mongoose";
-
-// const ordersModel = new mongoose.Schema({
-//     user_Id: mongoose.Schema.Types.ObjectId,
-//     order: String,
-//     deliveryStatus: String,
-//     amountL: String,
-//     // foodItems_Id: String,
-//     // resto_id: mongoose.Schema.Types.ObjectId,
-//     // deliveryBoy_Id: mongoose.Schema.Types.ObjectId,
-// })
-
-// export const orderSchema = mongoose.models?.orders || mongoose.model("orders", ordersModel)
-
-
-
-
 import mongoose from "mongoose";
 
 const ordersModel = new mongoose.Schema({
