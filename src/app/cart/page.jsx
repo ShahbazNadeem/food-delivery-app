@@ -13,6 +13,7 @@ const CartPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const callbackUrl = encodeURIComponent(pathname || '/');
+  const [lock, setLock] = useState(true)
 
   useEffect(() => {
     const userData = localStorage.getItem('User')
@@ -24,14 +25,17 @@ const CartPage = () => {
     setTimeout(() => {
       checkoutRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
+    setTimeout(() => {
+      setLock(false)
+    }, 700);
   };
 
-  const [lock, setLock] = useState(false)
   const {
     cart,
     removeFromCart,
     increaseQuantity,
     decreaseQuantity,
+    clearCart,
   } = useCart();
 
   const groupedCart = cart.reduce((acc, item) => {
@@ -56,16 +60,14 @@ const CartPage = () => {
   const dilevery_boy_id = '123456789'
 
   const orderNow = async () => {
-    let cart = JSON.parse(localStorage.getItem('addToCart(FDA)'))
     if (user) {
-      const user_Id = user._id;
       const subtotal = calculateTotal();
       const tax = calculateTax();
       const totalAmount = subtotal + tax;
 
       const collection = {
-        user_Id,
-        order: cart,
+        user_Id: user._id || user.id,
+        order: groupedCart,
         // deliveryBoy_Id: dilevery_boy_id,
         deliveryStatus: 'ok',
         amount: totalAmount,
@@ -78,15 +80,36 @@ const CartPage = () => {
       })
       res = await res.json()
       if (res.success) {
+        clearCart();
         alert('ok')
       } else {
-        alert('ok')
+        alert('not ok')
       }
     } else {
       console.log('order cancelled');
     }
   };
 
+  if (groupedCart.length === 0) {
+    return (
+      <CommenLayout>
+        <div className="h-screen bg-gray-100">
+          <div className="container">
+            <div className="pt-30">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">🛒 Your Cart</h2>
+              <div className="flex justify-center items-center flex-col gap-1">
+              <h3>Currently your cart is empty</h3>
+              <span>Go to home page and <Link href='/' className='text-blue-700 underline'>shop first</Link></span>
+              </div>
+                
+
+            </div>
+
+          </div>
+        </div>
+      </CommenLayout>
+    )
+  }
 
   return (
     <CommenLayout>
@@ -121,14 +144,14 @@ const CartPage = () => {
                       </p>
                       <div className="flex items-center mt-2 space-x-3">
                         <span
-                          className={`${lock ? 'pointer-events-none bg-[#8b9ab8]' : 'bg-[#1a2b48]'}  text-white border border-white rounded-full px-5 py-2 transition-all duration-300 ease-in-out hover:bg-white hover:text-[#1a2b48] hover:border-[#1a2b48] cursor-pointer`}
+                          className='bg-[#1a2b48]  text-white border border-white rounded-full px-5 py-2 transition-all duration-300 ease-in-out hover:bg-white hover:text-[#1a2b48] hover:border-[#1a2b48] cursor-pointer'
                           onClick={() => decreaseQuantity(item._id)}
                         >
                           <Icons.minus size={13} />
                         </span>
                         <span>{item.quantity}</span>
                         <span
-                          className={`${lock ? 'pointer-events-none bg-[#8b9ab8]' : 'bg-[#1a2b48]'}  text-white border border-white rounded-full px-5 py-2 transition-all duration-300 ease-in-out hover:bg-white hover:text-[#1a2b48] hover:border-[#1a2b48] cursor-pointer`}
+                          className='bg-[#1a2b48]  text-white border border-white rounded-full px-5 py-2 transition-all duration-300 ease-in-out hover:bg-white hover:text-[#1a2b48] hover:border-[#1a2b48] cursor-pointer'
                           onClick={() => increaseQuantity(item._id)}
                         >
                           <Icons.plus size={13} />
@@ -140,7 +163,7 @@ const CartPage = () => {
                         Rs {((item.price || item.itemPrice || 0) * item.quantity).toLocaleString()}
                       </span>
                       <span
-                        className={`${lock ? 'pointer-events-none bg-red-300' : 'bg-red-500'}  text-white border border-white rounded-full px-5 py-2 transition-all duration-300 ease-in-out hover:bg-white hover:text-red-500 hover:border-red-500 cursor-pointer`}
+                        className='bg-red-500 text-white border border-white rounded-full px-5 py-2 transition-all duration-300 ease-in-out hover:bg-white hover:text-red-500 hover:border-red-500 cursor-pointer'
                         onClick={() => removeFromCart(item._id)}
                       >
                         Delete
@@ -153,8 +176,6 @@ const CartPage = () => {
 
             {/* Summary */}
             <div className="bg-white rounded-xl shadow-md p-6 sticky top-20 h-fit">
-              {lock &&
-                <span className='flex gap-2 items-center mb-2 cursor-pointer'><Icons.leftArrow onClick={() => setLock(false)} size={15} /> Edit your order</span>}
               <h3 className="text-xl font-bold mb-4 text-gray-800">
                 Order Summary
               </h3>
@@ -174,26 +195,18 @@ const CartPage = () => {
                 </span>
               </div>
               <div className="">
+                {user ? (
+                  <button onClick={scrollToCheckout} className="w-full mt-6 font-medium rounded-lg hover:bg-gray-900 transition">
+                    Proceed to Checkout
+                  </button>
+                ) : (
 
-                {!lock &&
-                  <span onClick={() => setLock(true)} className="relative cursor-pointer flex justify-center items-center gap-1 px-3 py-2 mt-6 rounded-full border border-[#1a2b48] transition-all duration-300 hover:bg-[#1a2b48] hover:text-white group">Lock my order</span>}
-
-                {lock && (
-                  user ? (
-                    <button onClick={scrollToCheckout} className="w-full mt-6 font-medium rounded-lg hover:bg-gray-900 transition">
-                      Proceed to Checkout
+                  <Link href={`/user-auth?callbackUrl=${callbackUrl}`}>
+                    <button className="w-full mt-6 font-medium rounded-lg hover:bg-gray-900 transition">
+                      Login to Proceed
                     </button>
-                  ) : (
-
-                    <Link href={`/user-auth?callbackUrl=${callbackUrl}`}>
-                      <button className="w-full mt-6 font-medium rounded-lg hover:bg-gray-900 transition">
-                        Login to Proceed
-                      </button>
-                    </Link>
-                  )
+                  </Link>
                 )}
-
-
               </div>
             </div>
           </div>
@@ -207,10 +220,11 @@ const CartPage = () => {
                 <p>your order will be delivered at your footstep soon!</p>
               </div>
               <div className="lg:min-w-44 flex justify-center items-center mt-2 sm:mt-0">
-                <button onClick={orderNow}>Order now</button>
+                {!lock && <button onClick={orderNow}>Order now</button>}
               </div>
             </div>
           }
+
         </div>
       </section>
     </CommenLayout >

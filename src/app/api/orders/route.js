@@ -7,7 +7,6 @@ export async function POST(req) {
     const payload = await req.json();
     await mongoose.connect(connectionStr);
     let success = false;
-    let deliveryBoy_Id;
     const orderObj = new orderSchema(payload)
     const result = await orderObj.save()
     if (result) {
@@ -16,11 +15,6 @@ export async function POST(req) {
     return NextResponse.json({result, success})
 }
 
-
-// import { connectionStr } from "@/app/lib/db";
-// import { orderSchema } from "@/app/lib/ordersModel";
-// import mongoose from "mongoose";
-// import { NextResponse } from "next/server";
 
 // export async function POST(req) {
 //   try {

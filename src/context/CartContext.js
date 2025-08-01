@@ -61,6 +61,11 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem('addToCart(FDA)');
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -69,6 +74,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
+        clearCart,
       }}
     >
       {children}
