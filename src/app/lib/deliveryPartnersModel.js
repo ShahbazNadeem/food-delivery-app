@@ -6,7 +6,7 @@ const deliveryPartnersModel = new mongoose.Schema({
     password: String,
     city: String,
     address: String,
-    contact: String,
+    // contact: String,
 })
 
 export const deliveryPartnersSchema = mongoose.models?.deliveryPartners || mongoose.model("deliveryPartners", deliveryPartnersModel)

@@ -25,6 +25,7 @@ export async function POST(req) {
 
         // Remove password before sending response
         const { password, ...userWithoutPassword } = user.toObject();
+        console.log('userWithoutPassword',userWithoutPassword)
 
         return NextResponse.json({ success: true, user: userWithoutPassword });
 
