@@ -2,6 +2,7 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useUser } from '@/context/UserContext';
+import { fetchWithFallback } from "@/utils/fetchWithFallback";
 
 const UserLogin = () => {
   const router = useRouter()
@@ -16,22 +17,45 @@ const UserLogin = () => {
   const handleUserLogin = async (e) => {
     e.preventDefault();
 
-    let response = await fetch("https://food-delivery-app-xi-red.vercel.app/api/user/login", {
-    // let response = await fetch("http://localhost:3000/api/user/login", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    response = await response.json();
-    if (response.success) {
-      const { user } = response
-      login(user);
-      router.replace(callbackUrl)
-      // router.push("/");
-    } else {
-      alert("login failed");
+    // let response = await fetch("https://food-delivery-app-xi-red.vercel.app/api/user/login", {
+    // // let response = await fetch("http://localhost:3000/api/user/login", {
+    //   method: 'POST',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ email, password }),
+    // });
+    // response = await response.json();
+    // if (response.success) {
+    //   const { user } = response
+    //   login(user);
+    //   router.replace(callbackUrl)
+    //   // router.push("/");
+    // } else {
+    //   alert("login failed");
+    // }
+
+    try {
+      const res = await fetchWithFallback('/user/login', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const response = await res.json();
+
+      if (response.success) {
+        const { user } = response;
+        login(user);
+        router.replace(callbackUrl);
+      } else {
+        alert("Login failed");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Something went wrong during login.");
     }
   };
 
