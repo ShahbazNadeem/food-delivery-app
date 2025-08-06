@@ -16,8 +16,8 @@ const UserLogin = () => {
   const handleUserLogin = async (e) => {
     e.preventDefault();
 
-    // let response = await fetch("https://food-delivery-app-xi-red.vercel.app/api/user/login", {
-    let response = await fetch("http://localhost:3000/api/user/login", {
+    let response = await fetch("https://food-delivery-app-xi-red.vercel.app/api/user/login", {
+    // let response = await fetch("http://localhost:3000/api/user/login", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
