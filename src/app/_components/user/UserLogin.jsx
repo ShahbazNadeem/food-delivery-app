@@ -1,10 +1,14 @@
 "use client"
 import { useSearchParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+import { useUser } from '@/context/UserContext';
+
 const UserLogin = () => {
   const router = useRouter()
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
+
+  const { login } = useUser()
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +16,8 @@ const UserLogin = () => {
   const handleUserLogin = async (e) => {
     e.preventDefault();
 
-    let response = await fetch("http://localhost:3000/api/user/login", {
+    let response = await fetch("https://food-delivery-app-xi-red.vercel.app/api/user/login", {
+    // let response = await fetch("http://localhost:3000/api/user/login", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +27,7 @@ const UserLogin = () => {
     response = await response.json();
     if (response.success) {
       const { user } = response
-      localStorage.setItem("User", JSON.stringify(user))
+      login(user);
       router.replace(callbackUrl)
       // router.push("/");
     } else {

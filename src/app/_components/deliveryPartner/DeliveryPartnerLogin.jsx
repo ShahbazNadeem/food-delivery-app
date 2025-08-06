@@ -11,7 +11,7 @@ const DeliveryPartnerLogin = () => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login} = useDeliveryPartner();
+  const { login } = useDeliveryPartner();
 
   const handleUserLogin = async (e) => {
     e.preventDefault();
@@ -27,6 +27,7 @@ const DeliveryPartnerLogin = () => {
     if (response.success) {
       const { user } = response
       login(user);
+      router.replace(callbackUrl)
     } else {
       alert("login failed");
     }

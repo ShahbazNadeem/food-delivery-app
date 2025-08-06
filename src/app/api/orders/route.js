@@ -3,6 +3,12 @@ import { orderSchema } from "@/app/lib/ordersModel";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
+export async function GET() {
+  await mongoose.connect(connectionStr)
+  const data = await orderSchema.find()
+  return NextResponse.json({ result: data })
+}
+
 export async function POST(req) {
     const payload = await req.json();
     await mongoose.connect(connectionStr);

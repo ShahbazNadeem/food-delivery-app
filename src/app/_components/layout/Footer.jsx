@@ -1,6 +1,9 @@
+'use client'
 import React from 'react'
 import Image from "next/image";
 import projectLogo from "@/images/projectLogo.png"
+import Link from 'next/link';
+// import Link from 'next/navigation';
 
 const Footer = () => {
     return (
@@ -16,13 +19,13 @@ const Footer = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                         <div>
-                            <span className="mb-6 text-md font-semibold text-gray-900 uppercase dark:text-white">Resources</span>
+                            <span className="mb-6 text-md font-semibold text-gray-900 uppercase dark:text-white">Earn with us</span>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <a href="#" className="hover:underline">Flowbite</a>
+                                    <Link href="/deliveryPartner" className="hover:underline">Delivery Partner Dashboard</Link>
                                 </li>
                                 <li>
-                                    <a href="#" className="hover:underline">Tailwind CSS</a>
+                                    <a href="/resturant/dashboard" className="hover:underline">Admin</a>
                                 </li>
                             </ul>
                         </div>
@@ -33,7 +36,7 @@ const Footer = () => {
                                     <a href="#" className="hover:underline ">Github</a>
                                 </li>
                                 <li>
-                                    <a href="#" className="hover:underline">Discord</a>
+                                    <a href="#" className="hover:underline">Linkedin</a>
                                 </li>
                             </ul>
                         </div>
