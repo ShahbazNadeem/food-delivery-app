@@ -7,6 +7,7 @@ import { Icons } from '../data/Imports';
 import OrderPage from '../_components/OrderPage';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { fetchWithFallback } from '@/utils/fetchWithFallback';
 
 const CartPage = () => {
   const [user, setUser] = useState(null)
@@ -73,17 +74,40 @@ const CartPage = () => {
         amount: totalAmount,
       };
 
-      console.log('Order Collection:', collection);
-      let res = await fetch('http://localhost:3000/api/orders', {
-        method: 'POST',
-        body: JSON.stringify(collection)
-      })
-      res = await res.json()
-      if (res.success) {
-        clearCart();
-        alert('ok')
-      } else {
-        alert('not ok')
+      // let res = await fetch('http://localhost:3000/api/orders', {
+      //   method: 'POST',
+      //   body: JSON.stringify(collection)
+      // })
+      // res = await res.json()
+      // if (res.success) {
+      //   clearCart();
+      //   alert('ok')
+      // } else {
+      //   alert('not ok')
+      // }
+
+      let res;
+
+      try {
+        res = await fetchWithFallback('/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(collection)
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          clearCart();
+          alert('ok');
+        } else {
+          alert('not ok');
+        }
+      } catch (error) {
+        console.error("Order submission failed:", error);
+        alert("Something went wrong");
       }
     } else {
       console.log('order cancelled');

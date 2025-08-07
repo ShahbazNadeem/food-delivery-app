@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithFallback } from '@/utils/fetchWithFallback';
 import React, { useState } from 'react'
 
 const AddFoodItems = () => {
@@ -28,24 +29,45 @@ const AddFoodItems = () => {
             ...items,
             resto_id,
         };
-        let res = await fetch("http://localhost:3000/api/restaurant/foods", {
+        // let res = await fetch("http://localhost:3000/api/restaurant/foods", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(payload),
+        // })
+        // res = await res.json();
+        // if (res.success) {
+        //     setItems({
+        //         itemName: "",
+        //         itemPrice: "",
+        //         itemImg: "",
+        //         itemDecription: "",
+        //     });
+        //     alert("thk ja rhy ho, Food item add ho gya")
+        // } else {
+        //     alert("Food item add ni huwa")
+        // }
+        const res = await fetchWithFallback('/restaurant/foods', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),
-        })
-        res = await res.json();
-        if (res.success) {
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
             setItems({
                 itemName: "",
                 itemPrice: "",
                 itemImg: "",
                 itemDecription: "",
             });
-            alert("thk ja rhy ho, Food item add ho gya")
+            alert("thk ja rhy ho, Food item add ho gya");
         } else {
-            alert("Food item add ni huwa")
+            alert("Food item add ni huwa");
         }
     }
     return (

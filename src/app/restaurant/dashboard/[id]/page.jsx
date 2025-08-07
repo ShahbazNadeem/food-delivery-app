@@ -1,5 +1,6 @@
 'use client';
 
+import { fetchWithFallback } from '@/utils/fetchWithFallback';
 import Layout from '@components/layout/Layout';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -23,12 +24,33 @@ const EditFoodItems = (props) => {
     }, []);
 
     const fetchFoodItem = async () => {
+        // try {
+        //     const res = await fetch(`http://localhost:3000/api/restaurant/foods/edit/${id}`);
+        //     const data = await res.json();
+
+        //     if (data.success && data.result) {
+        //         const { itemName, itemPrice, itemImg, itemDecription } = data.result;
+        //         setItems({
+        //             itemName: itemName || '',
+        //             itemPrice: itemPrice || '',
+        //             itemImg: itemImg || '',
+        //             itemDecription: itemDecription || '',
+        //         });
+        //     } else {
+        //         console.error('Failed to load item:', data.message || 'Unknown error');
+        //         toast.error('Failed to load item');
+        //     }
+        // } catch (err) {
+        //     console.error('Error fetching food item:', err);
+        //     toast.error('Something went wrong while fetching');
+        // }
         try {
-            const res = await fetch(`http://localhost:3000/api/restaurant/foods/edit/${id}`);
+            const res = await fetchWithFallback(`/restaurant/foods/edit/${id}`);
             const data = await res.json();
 
             if (data.success && data.result) {
                 const { itemName, itemPrice, itemImg, itemDecription } = data.result;
+
                 setItems({
                     itemName: itemName || '',
                     itemPrice: itemPrice || '',
@@ -63,8 +85,29 @@ const EditFoodItems = (props) => {
             resto_id,
         };
 
+        // try {
+        //     const res = await fetch(`http://localhost:3000/api/restaurant/foods/edit/${id}`, {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(payload),
+        //     });
+
+        //     const data = await res.json();
+
+        //     if (data.success) {
+        //         toast.success('Item updated successfully');
+        //         router.push('../dashboard');
+        //     } else {
+        //         toast.error('Failed to update item');
+        //     }
+        // } catch (err) {
+        //     console.error('Update error:', err);
+        //     toast.error('Error updating item');
+        // }
         try {
-            const res = await fetch(`http://localhost:3000/api/restaurant/foods/edit/${id}`, {
+            const res = await fetchWithFallback(`/restaurant/foods/edit/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

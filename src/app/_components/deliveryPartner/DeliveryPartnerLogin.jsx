@@ -2,6 +2,7 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useDeliveryPartner } from "@/context/DeliveryPartnerContext";
+import { fetchWithFallback } from '@/utils/fetchWithFallback';
 
 const DeliveryPartnerLogin = () => {
   const router = useRouter()
@@ -16,20 +17,42 @@ const DeliveryPartnerLogin = () => {
   const handleUserLogin = async (e) => {
     e.preventDefault();
 
-    let response = await fetch("http://localhost:3000/api/deliveryPartners/login", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ mobile, password }),
-    });
-    response = await response.json();
-    if (response.success) {
-      const { user } = response
-      login(user);
-      router.replace(callbackUrl)
-    } else {
-      alert("login failed");
+    // let response = await fetch("http://localhost:3000/api/deliveryPartners/login", {
+    //   method: 'POST',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ mobile, password }),
+    // });
+    // response = await response.json();
+    // if (response.success) {
+    //   const { user } = response
+    //   login(user);
+    //   router.replace(callbackUrl)
+    // } else {
+    //   alert("login failed");
+    // }
+    try {
+      let res = await fetchWithFallback("/deliveryPartners/login", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ mobile, password }),
+      });
+
+      const response = await res.json();
+
+      if (response.success) {
+        const { user } = response;
+        login(user); // your auth context function
+        router.replace(callbackUrl);
+      } else {
+        alert("Login failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Server error, please try again.");
     }
   };
 

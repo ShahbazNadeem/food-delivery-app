@@ -25,15 +25,55 @@ const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    // try {
+    //   let res = await fetch("http://localhost:3000/api/restaurant", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(users),
+    //   });
+
+
+    //   if (!res.ok) {
+    //     const err = await res.json();
+    //     console.error("Backend returned error:", err);
+    //     toast.error("Something went wrong!");
+    //     return;
+    //   }
+
+    //   res = await res.json();
+
+    //   if (res.success) {
+    //     toast.success('Registered Sucessfully', {
+    //       position: "top-center",
+    //       autoClose: 5000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: false,
+    //       draggable: true,
+    //       progress: undefined,
+    //       theme: "dark",
+    //     });
+    //     const { result } = res;
+    //     delete result.password;
+    //     localStorage.setItem("restaurantUser", JSON.stringify(result));
+    //     setTimeout(() => {
+    //       router.push("/restaurant/dashboard");
+    //     }, 100);
+    //   }
+    // } catch (err) {
+    //   console.error("Fetch failed:", err);
+    //   toast.error("Network or server error.");
+    // }
     try {
-      let res = await fetch("http://localhost:3000/api/restaurant", {
+      let res = await fetchWithFallback('/restaurant', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(users),
       });
-
 
       if (!res.ok) {
         const err = await res.json();
@@ -42,10 +82,10 @@ const SignUp = () => {
         return;
       }
 
-      res = await res.json();
+      const data = await res.json();
 
-      if (res.success) {
-        toast.success('Registered Sucessfully', {
+      if (data.success) {
+        toast.success('Registered Successfully', {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -55,7 +95,8 @@ const SignUp = () => {
           progress: undefined,
           theme: "dark",
         });
-        const { result } = res;
+
+        const { result } = data;
         delete result.password;
         localStorage.setItem("restaurantUser", JSON.stringify(result));
         setTimeout(() => {

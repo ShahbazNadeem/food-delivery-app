@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithFallback } from '@/utils/fetchWithFallback';
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -24,8 +25,58 @@ const DeliveryPartnerSignup = () => {
 
     const handleUserUserSignUp = async (e) => {
         e.preventDefault();
+        // try {
+        //     let res = await fetch("http://localhost:3000/api/deliveryPartners/signup", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(users),
+        //     });
+
+
+        //     if (!res.ok) {
+        //         const err = await res.json();
+        //         console.error("Backend returned error:", err);
+        //         toast.error("Something went wrong!");
+        //         return;
+        //     }
+
+        //     res = await res.json();
+        //     console.log(res)
+
+        //     if (res.success) {
+        //         toast.success('Registered Successfully', {
+        //             position: "top-center",
+        //             autoClose: 5000,
+        //             theme: "dark",
+        //         });
+        //         const { result } = res;
+        //         delete result.password;
+        //         setSignedUp(true)
+        //         setUsers({
+        //             name: "",
+        //             email: "",
+        //             city: "",
+        //             address: "",
+        //             mobile: "",
+        //             password: "",
+        //         })
+
+        //         // localStorage.setItem("User", JSON.stringify(result));
+        //     } else {
+        //         toast.error(res.result || "Registration failed", {
+        //             position: "top-center",
+        //             autoClose: 5000,
+        //             theme: "dark",
+        //         });
+        //     }
+        // } catch (err) {
+        //     console.error("Fetch failed:", err);
+        //     toast.error("Network or server error.");
+        // }
         try {
-            let res = await fetch("http://localhost:3000/api/deliveryPartners/signup", {
+            let res = await fetchWithFallback("/deliveryPartners/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -33,26 +84,31 @@ const DeliveryPartnerSignup = () => {
                 body: JSON.stringify(users),
             });
 
-
             if (!res.ok) {
                 const err = await res.json();
                 console.error("Backend returned error:", err);
-                toast.error("Something went wrong!");
-                return;
-            }
-
-            res = await res.json();
-            console.log(res)
-
-            if (res.success) {
-                toast.success('Registered Successfully', {
+                toast.error("Something went wrong!", {
                     position: "top-center",
                     autoClose: 5000,
                     theme: "dark",
                 });
-                const { result } = res;
+                return;
+            }
+
+            const response = await res.json();
+            console.log(response);
+
+            if (response.success) {
+                toast.success("Registered Successfully", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    theme: "dark",
+                });
+
+                const { result } = response;
                 delete result.password;
-                setSignedUp(true)
+
+                setSignedUp(true);
                 setUsers({
                     name: "",
                     email: "",
@@ -60,11 +116,12 @@ const DeliveryPartnerSignup = () => {
                     address: "",
                     mobile: "",
                     password: "",
-                })
+                });
 
+                // Optionally store user:
                 // localStorage.setItem("User", JSON.stringify(result));
             } else {
-                toast.error(res.result || "Registration failed", {
+                toast.error(response.result || "Registration failed", {
                     position: "top-center",
                     autoClose: 5000,
                     theme: "dark",
@@ -72,7 +129,11 @@ const DeliveryPartnerSignup = () => {
             }
         } catch (err) {
             console.error("Fetch failed:", err);
-            toast.error("Network or server error.");
+            toast.error("Network or server error.", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "dark",
+            });
         }
     }
     return (

@@ -1,5 +1,6 @@
 'use client';
 
+import { fetchWithFallback } from '@/utils/fetchWithFallback';
 import React, {
   createContext,
   useContext,
@@ -17,20 +18,51 @@ export const RestaurantProvider = ({ children }) => {
   const [restaurants, setRestaurants] = useState([]);
 
   const fetchLocations = useCallback(async () => {
+    // try {
+    //   const res = await fetch('http://localhost:3000/api/customer/locations');
+    //   const { success, result } = await res.json();
+    //   if (success) setLocations(result); 
+    // } catch (err) {
+    //   console.error('Error fetching locations:', err);
+    // }
+
     try {
-      const res = await fetch('http://localhost:3000/api/customer/locations');
+      const res = await fetchWithFallback('/customer/locations');
       const { success, result } = await res.json();
-      if (success) setLocations(result); 
+
+      if (success) {
+        setLocations(result);
+      } else {
+        console.error('Failed to load locations: Response not successful');
+      }
     } catch (err) {
       console.error('Error fetching locations:', err);
     }
   }, []);
 
   const fetchRestaurants = useCallback(async (filters = {}) => {
+    // try {
+    //   const query = new URLSearchParams(filters).toString();
+    //   const url = `http://localhost:3000/api/customer${query ? `?${query}` : ''}`;
+    //   const res = await fetch(url);
+    //   const { success, result } = await res.json();
+
+    //   if (success && Array.isArray(result)) {
+    //     const formatted = result.map(({ _id, password, ...rest }) => ({
+    //       ...rest,
+    //       id: _id,
+    //     }));
+    //     setRestaurants(formatted);
+    //   }
+    // } catch (err) {
+    //   console.error('Error fetching restaurants:', err);
+    // }
+
     try {
       const query = new URLSearchParams(filters).toString();
-      const url = `http://localhost:3000/api/customer${query ? `?${query}` : ''}`;
-      const res = await fetch(url);
+      const url = `/customer${query ? `?${query}` : ''}`;
+      const res = await fetchWithFallback(url);
+
       const { success, result } = await res.json();
 
       if (success && Array.isArray(result)) {
@@ -43,6 +75,7 @@ export const RestaurantProvider = ({ children }) => {
     } catch (err) {
       console.error('Error fetching restaurants:', err);
     }
+
   }, []);
 
   useEffect(() => {

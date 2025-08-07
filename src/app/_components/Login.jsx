@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithFallback } from '@/utils/fetchWithFallback';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 const Login = () => {
@@ -9,22 +10,45 @@ const Login = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
 
-    let response = await fetch("http://localhost:3000/api/restaurant", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password, login: true }),
-    });
-    response = await response.json();
-    if (response.success) {
-      const { result } = response
-      delete result.password
-      localStorage.setItem("restaurantUser", JSON.stringify(result))
-      router.push("/restaurant/dashboard");
-    } else {
-      alert("login failed");
+    // let response = await fetch("http://localhost:3000/api/restaurant", {
+    //   method: 'POST',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ email, password, login: true }),
+    // });
+    // response = await response.json();
+    // if (response.success) {
+    //   const { result } = response
+    //   delete result.password
+    //   localStorage.setItem("restaurantUser", JSON.stringify(result))
+    //   router.push("/restaurant/dashboard");
+    // } else {
+    //   alert("login failed");
 
+    // }
+    try {
+      let res = await fetchWithFallback('/restaurant', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, login: true }),
+      });
+
+      const response = await res.json();
+
+      if (response.success) {
+        const { result } = response;
+        delete result.password;
+        localStorage.setItem("restaurantUser", JSON.stringify(result));
+        router.push("/restaurant/dashboard");
+      } else {
+        alert("Login failed");
+      }
+    } catch (err) {
+      console.error("Error logging in:", err);
+      alert("Something went wrong!");
     }
   };
 
