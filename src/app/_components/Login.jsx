@@ -1,11 +1,15 @@
 "use client"
+import { useRestaurantAdmin } from '@/context/RestaurantAdminContext';
 import { fetchWithFallback } from '@/utils/fetchWithFallback';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter()
+  const { loginRestaurantUser } = useRestaurantAdmin()
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -41,7 +45,7 @@ const Login = () => {
       if (response.success) {
         const { result } = response;
         delete result.password;
-        localStorage.setItem("restaurantUser", JSON.stringify(result));
+        loginRestaurantUser(result);
         router.push("/restaurant/dashboard");
       } else {
         alert("Login failed");

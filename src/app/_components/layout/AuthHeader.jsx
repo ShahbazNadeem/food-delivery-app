@@ -6,28 +6,13 @@ import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 import projectLogo from "@/images/projectLogo.png"
 import { useRouter, usePathname } from 'next/navigation';
+import { useRestaurantAdmin } from '@/context/RestaurantAdminContext';
 
 const AuthHeader = () => {
   const router = useRouter()
   const pathName = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [details, setDetails] = useState();
-
-  useEffect(() => {
-    const data = localStorage.getItem("restaurantUser");
-    if (!data && pathName == "/restaurant/dashboard") {
-      router.push("/restaurant");
-    } else if (data && pathName == "/restaurant") {
-      router.push("/restaurant/dashboard")
-    } else {
-      try {
-        setDetails(JSON.parse(data));
-      } catch (e) {
-        console.error("Error parsing restaurantUser:", e);
-        router.push("/restaurant");
-      }
-    }
-  }, []);
+  const {restaurantUser,logoutRestaurantUser} = useRestaurantAdmin()
 
   useEffect(() => {
     if (isOpen) {
@@ -59,10 +44,10 @@ const AuthHeader = () => {
             </ul>
             <span>
               <button className="hidden sm:block">
-                {details && details.name ? (
+                {restaurantUser && restaurantUser.name ? (
                   pathName === "/restaurant/dashboard" ? (
                     <span onClick={() => {
-                      localStorage.removeItem("restaurantUser");
+                      logoutRestaurantUser()
                       router.push("/restaurant");
                     }}>
                       Sign out
@@ -102,7 +87,7 @@ const AuthHeader = () => {
             <li><Link href="#">Premium Group Tours</Link></li>
             <li><Link href="#">Private Tours</Link></li>
             <li>
-              {details && details.name ? (
+              {logoutRestaurantUser && logoutRestaurantUser.name ? (
                 <Link href="/restaurant/dashboard">Dashboard</Link>
               ) : (
                 <Link href="/login">Login</Link>

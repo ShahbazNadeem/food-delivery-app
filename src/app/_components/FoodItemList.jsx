@@ -108,12 +108,11 @@ const FoodItemList = () => {
                         >
                             Edit
                         </button>
-                        <button
+                        <span
                             onClick={() => handleDelete(item._id)}
-                            className="text-red-600 hover:underline"
-                        >
+                            className="text-red-600 rounded-2xl px-2 py-1 border border-red-400 hover:text-white hover:bg-red-500 transition-all duration-300 ease-in-out cursor-pointer flex items-center" >
                             Delete
-                        </button>
+                        </span>
                     </div>
                 </td>
             </tr>

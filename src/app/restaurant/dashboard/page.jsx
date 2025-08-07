@@ -1,20 +1,32 @@
-import Layout from '@components/layout/Layout'
-import React from 'react'
+'use client';
+
+import Layout from '@components/layout/Layout';
+import React, { useEffect } from 'react';
 import DashboardMain from '@components/DashboardMain';
-import AddFoodItems from '@components/AddFoodItems';
+import { useRestaurantAdmin } from '@/context/RestaurantAdminContext';
+import { useRouter } from 'next/navigation';
 
-export const metadata = {
-  title: 'Dashboard',
-  description: 'Login or sign up to access the Restaurant app.',
-};
+const Page = () => {
+  const router = useRouter();
+  const { restaurantUser } = useRestaurantAdmin();
 
-const page = () => {
+  useEffect(() => {
+    document.title = 'Dashboard';
+
+    if (!restaurantUser) {
+      router.push('/restaurant');
+    }
+  }, [restaurantUser]);
+
+  if (!restaurantUser) {
+    return null;
+  }
 
   return (
     <Layout>
-      <DashboardMain/>
+      <DashboardMain />
     </Layout>
-  )
-}
+  );
+};
 
-export default page
+export default Page;
