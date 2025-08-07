@@ -12,15 +12,8 @@ import { useUser } from "@/context/UserContext";
 
 const CustomerHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [details, setDetails] = useState();
     const { cart } = useCart();
     const { user } = useUser();
-    // useEffect(() => {
-    //     if (user) {
-    //         setDetails(JSON.parse(user));
-    //     } 
-
-    // }, []);
     return (
         <>
             <header className="fixed top-6 left-1/2 -translate-x-1/2 w-full z-50 max-w-[1440px] mx-auto bg-[#ffffff4d] backdrop-blur-md rounded-full">
@@ -36,8 +29,8 @@ const CustomerHeader = () => {
                         </Link>
                         <ul className="lg:flex justify-between xl:gap-10 gap-5 font-marcellus lg:text-[14px] xl:text-[16px] hidden">
                             <li><Link href="/">Home</Link></li>
-                            <li><Link href="#">Menu</Link></li>
-                            <li><Link href="#">Add Restaurant</Link></li>
+                            <li><Link href="#">About us</Link></li>
+                            <li><Link href="#">Contact us</Link></li>
                         </ul>
                         <span className='lg:flex gap-3 hidden'>
 
