@@ -1,12 +1,31 @@
+'use client'
 import LoginSwitcher from '@components/LoginSwitcher';
 import Layout from '@components/layout/Layout';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useRestaurantAdmin } from '@/context/RestaurantAdminContext';
 
-export const metadata = {
-  title: 'Login - Restaurant ',
-  description: 'Login or sign up to access the Restaurant app.',
-};
+// export const metadata = {
+//   title: 'Login - Restaurant ',
+//   description: 'Login or sign up to access the Restaurant app.',
+// };
 
 export default function AuthPage() {
+
+  const router = useRouter();
+  const { restaurantUser } = useRestaurantAdmin();
+
+  useEffect(() => {
+    document.title = 'Dashboard';
+
+    if (restaurantUser) {
+      router.push('/restaurant/dashboard');
+    }
+  }, [restaurantUser]);
+
+  if (restaurantUser) {
+    return null;
+  }
   return (
     <Layout>
 
